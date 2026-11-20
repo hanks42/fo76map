@@ -83,7 +83,8 @@ const MAP_IMAGE = {
           'Locations: <a href="https://fallout.fandom.com/wiki/Fallout_76_world_map" target="_blank" rel="noopener">Nukapedia – Fallout 76 world map</a>. ' +
           'Spices: <a href="https://fallout.fandom.com/wiki/Spices" target="_blank" rel="noopener">Nukapedia – Spices</a>. ' +
           'Duct tape: <a href="https://fallout.fandom.com/wiki/Military_grade_duct_tape_(Fallout_76)" target="_blank" rel="noopener">Nukapedia – Military grade duct tape</a>. ' +
-          'Unusual Pipe spawn points: <a href="https://nukesdragons.com/fallout-76/db/world-objects/unusual-pipe" target="_blank" rel="noopener">Nukes &amp; Dragons</a>.' +
+          'Unusual Pipe spawn points: <a href="https://nukesdragons.com/fallout-76/db/world-objects/unusual-pipe" target="_blank" rel="noopener">Nukes &amp; Dragons</a>. ' +
+          'Pipe run route: <a href="https://www.reddit.com/r/fallout76casual/comments/1ww3p93/the_pipe_run_route/" target="_blank" rel="noopener">&ldquo;The Pipe Run Route&rdquo;, r/fallout76casual</a>.' +
           '<br><span class="wip">&#9888; Work in progress: this map isn\'t complete yet. ' +
           'Help expand it or share it: <a href="https://github.com/hanks42/fo76map" target="_blank" rel="noopener">github.com/hanks42/fo76map</a> · ' +
           '<a href="https://github.com/hanks42/fo76map/issues" target="_blank" rel="noopener">Report an issue or send feedback</a></span>' +
@@ -103,6 +104,8 @@ const MAP_IMAGE = {
  *      source:    { label: "Wiki page", url: "https://…" },   // shown in panel & popups
  *      description: "optional one-liner shown under the checkbox",
  *      meta:      "optional text replacing the auto count shown next to the name",
+ *      countLabel:"optional popup label for the count (default: the layer name)",
+ *      route:     true,                 // optional: join the items, in order, with a dashed line
  *      items: [ { name, x, y, count, notes, region, source }, … ]  // x,y = image pixels
  *    }
  *  The panel checkbox, totals, markers, popups, search entries and permalink support are
@@ -662,6 +665,25 @@ const UNUSUAL_PIPE = [
   {"name": "Unusual Pipe near Wilson Brother's Auto Repair", "x": 1716.3, "y": 1169.8, "notes": "Nearest location: Wilson Brother's Auto Repair. Spawn chance: 2% per encounter roll at this node (its share of the region's object encounters). Random encounter; sniff the Unusual Pipe for a chance at The Pipe.", "region": "The Forest", "wiki": "Wilson Brother's Auto Repair"}
 ];
 
+/* ---------- DATA: "The Pipe Run Route" (https://www.reddit.com/r/fallout76casual/comments/1ww3p93/the_pipe_run_route/) ----------
+ * Stops in the post's order, each on the matching Unusual Pipe spawn point above (or the fast-travel marker, noted). */
+const PIPE_ROUTE = [
+  {"name": "Stop 1: Abandoned Mine Shaft 2", "count": "1", "x": 1388.1, "y": 2993.1, "notes": "Directions (from the fast-travel point): From the fast-travel point turn right; the spawn point is straight ahead. — Placed on the N&D Unusual Pipe spawn point near Abandoned Mine Shaft 2."},
+  {"name": "Stop 2: The Rusty Pick (exterior)", "count": "2", "x": 1223.0, "y": 2574.0, "posApprox": true, "notes": "Directions (from the fast-travel point): From the fast-travel point face SW and follow the road down; the spawn point is at the second electrical pole. — FALLBACK: No N&D pipe node matches the post's spot (the nearest, listed under Hornwright Air Purifier Site #01, lies east, not south-west), so this badge sits on the fast-travel marker."},
+  {"name": "Stop 3: Summersville Docks", "count": "3", "x": 1584.6, "y": 2399.4, "notes": "Directions (from the fast-travel point): Face SE into the dried lake bed, pass the pond, then turn SW past the beached sailboat; the spawn point is in front of the shipping containers. — Placed on the N&D Unusual Pipe spawn point near Summersville Docks."},
+  {"name": "Stop 4: Poseidon Power Substation PX-02", "count": "4", "x": 1831.1, "y": 2038.1, "notes": "Directions (from the fast-travel point): From the fast-travel point run straight ahead; the spawn point is just before the red-and-white pylon. — Placed on the N&D Unusual Pipe spawn point near Tygart Water Treatment. N&D files this node under Tygart Water Treatment; it sits between the two."},
+  {"name": "Stop 5: Charleston Station (spawn 1)", "count": "5", "x": 1291.7, "y": 2314.9, "notes": "Directions (from the fast-travel point): Face SE and run past the pond; at the brick house turn left; the spawn point is across the road. — Placed on the N&D Unusual Pipe spawn point near Charleston Station."},
+  {"name": "Stop 5b: Charleston Station (spawn 2)", "count": "5b", "x": 1314.2, "y": 2154.3, "notes": "Directions (from the fast-travel point): From spawn 1 go back to the station and follow the tracks north; where they curve onto the bridge, keep straight toward the red-and-white pylons; the spawn point is halfway to the second pylon. — Placed on the N&D Unusual Pipe spawn point near New River Gorge Bridge - West. Probable match: the only N&D pipe node north of the station (listed under New River Gorge Bridge - West)."},
+  {"name": "Stop 6: The Giant Teapot", "count": "6", "x": 1118.5, "y": 2258.0, "notes": "Directions (from the fast-travel point): Run past the teapot, down the stairs and past the first power pylon; the spawn point is right under the second pylon. — Placed on the N&D Unusual Pipe spawn point near The Giant Teapot. N&D gives this spawn only at the location marker, so the exact spot (a little past the teapot) is approximate."},
+  {"name": "Stop 7: Lewis & Sons Farming Supply", "count": "7", "x": 791.0, "y": 2311.4, "notes": "Directions (from the fast-travel point): Run past the store and stop at the North 81 sign; the spawn point is beside the road behind the sign. — Placed on the N&D Unusual Pipe spawn point near Lewis & Sons Farming Supply."},
+  {"name": "Stop 8: Hunter's Ridge", "count": "8", "x": 935.3, "y": 1709.3, "notes": "Directions (from the fast-travel point): Turn SW and run to the main road, then turn left; the spawn point is straight ahead. — Placed on the N&D Unusual Pipe spawn point near Hunter's Ridge."},
+  {"name": "Stop 9: Relay Tower EM-B1-27", "count": "9", "x": 1259.3, "y": 1737.4, "notes": "Directions (from the fast-travel point): Turn around and head east past the house with the white picket fence; the spawn point is past the house, outside the fence on the left. — Placed on the N&D Unusual Pipe spawn point near Flatwoods Lookout. N&D files this node under Flatwoods Lookout; it is the nearest pipe node east of the tower."},
+  {"name": "Stop 10: Slocum's Joe", "count": "10", "x": 1575.5, "y": 1724.1, "notes": "Directions (from the fast-travel point): Turn S and run up the road; the spawn point is in front of the yellow garage of the pink house on the left. — Placed on the N&D Unusual Pipe spawn point near Slocum's Joe. The post also mentions an optional second spawn across the river (N&D: near Isolated Cabin)."},
+  {"name": "Stop 11: Lady Janet's Soft Serve", "count": "11", "x": 1321.9, "y": 1013.5, "notes": "Directions (from the fast-travel point): Turn W to the road, then left (S); pass two cars and a 94 sign; the spawn point is past the sign on the right of the road. — Placed on the N&D Unusual Pipe spawn point near Lady Janet's Soft Serve."},
+  {"name": "Stop 12: Darling Sisters' Lab (spawn 1)", "count": "12", "x": 1029.7, "y": 970.5, "notes": "Directions (from the fast-travel point): Turn SE to the road, turn right and follow it to the cars and picnic rest stop; the spawn point is in the middle of the rest stop. — Placed on the N&D Unusual Pipe spawn point near Tyler County Fairgrounds. N&D files this node under Tyler County Fairgrounds; it matches the post's SE-then-down-the-road direction."},
+  {"name": "Stop 12b: Darling Sisters' Lab (spawn 2)", "count": "12b", "x": 898.0, "y": 905.7, "notes": "Directions (from the fast-travel point): From spawn 1 head west to the road, turn right (N), pass 3 electric poles; it is to the right of the 45 MPH sign. — Placed on the N&D Unusual Pipe spawn point near Darling Sister's Lab."}
+];
+
 const LAYERS = [
   {
     id: "fasttravel",
@@ -703,6 +725,19 @@ const LAYERS = [
     source: { label: "Nukes & Dragons: Unusual Pipe", url: "https://nukesdragons.com/fallout-76/db/world-objects/unusual-pipe" },
     description: "Random-encounter spawn points. Every 10–30 min each node rolls one of its region's object encounters; the Unusual Pipe is ~2% per roll. Sniff the smoking pipe for a chance at The Pipe (players report ~20–30 sniffs).",
     items: UNUSUAL_PIPE
+  },
+  {
+    id: "piperoute",
+    name: "Pipe Run Route",
+    color: "#c46ad8",
+    style: "badge",
+    route: true,
+    countLabel: "Stop",
+    defaultOn: false,
+    meta: "12 stops · 14 spawns",
+    source: { label: "Reddit r/fallout76casual: The Pipe Run Route", url: "https://www.reddit.com/r/fallout76casual/comments/1ww3p93/the_pipe_run_route/" },
+    description: "Western Unusual Pipe farming loop, under 10 min once practised. Step 1: join a private world. Step 2: run the stops in order (the pipe can show up more than once per world). Step 3: quit to the main menu, start creating a custom world, back out before it finishes, then rejoin your private world; it is now reset, so run it again.",
+    items: PIPE_ROUTE
   }
   // , { id: "next-layer", name: "…", color: "#…", style: "badge", defaultOn: false, source: {…}, items: [ … ] }
 ];
@@ -758,7 +793,7 @@ const LAYERS = [
       (it.region ? `<div class="row">Region: ${esc(it.region)}${it.regionGuess ? " (approx.)" : ""}</div>` : "") +
       (it.type ? `<div class="row">Type: ${esc(it.type)}</div>` : "") +
       (it.posApprox ? `<div class="row">Position approximate</div>` : "") +
-      (it.count != null ? `<div><b>${esc(layer.name)}: ${esc(it.count)}</b></div>` : "") +
+      (it.count != null ? `<div><b>${esc(layer.countLabel || layer.name)}: ${esc(it.count)}</b></div>` : "") +
       (it.notes ? `<div style="margin-top:4px">${esc(it.notes)}</div>` : "") +
       `<div class="row" style="margin-top:6px">` +
         (it.wiki ? `<a href="${wikiUrl(it.wiki)}" target="_blank" rel="noopener">Wiki page</a> · ` : "") +
@@ -784,6 +819,8 @@ const LAYERS = [
   const listEl = document.getElementById("layerList");
   LAYERS.forEach((layer) => {
     const g = L.layerGroup(); groups[layer.id] = g;
+    if (layer.route) g.addLayer(L.polyline(layer.items.map((it) => toLL(it.x, it.y)),
+      { color: layer.color, weight: 3, opacity: 0.9, dashArray: "8 8", interactive: false }));
     layer.items.forEach((it) => {
       const mk = makeMarker(layer, it); g.addLayer(mk);
       index.push({ label: `${it.name} — ${layer.name}`, layer, it, mk });
